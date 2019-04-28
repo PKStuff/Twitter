@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="leftcolumn">
+    {% if username is not None %}
+    <div class="card">
+      <h2>Your Own Tweets</h2>
+      {% for tweet in SelfTweet %}
+      <h4 style="color:blue;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
+      <p>{{tweet.tweet}}</p>
+      {% endfor %}
+    </div>
+    <div class="card">
+      <h2>Liked Tweets</h2>
+      {% for tweet in LikedTweet %}
+      <h4 style="color:blue;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
+      <p>{{tweet.tweet}}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <div class="card">
+      <h2>All Tweets</h2>
+      {% for tweet in AllTweets %}
+      <h4 style="color:blue;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
+      <p>{{tweet.tweet}}</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
