@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.admin import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .models import tweettable
+from .models import tweettable, favtable
 from .forms import register_form, twitter_form
 
 @login_required
@@ -10,11 +10,12 @@ def index(request):
     username = None
     AllTweets = tweettable.objects.all()
     SelfTweet = 'Tweets not available.'
-    LikedTweet = 'Tweets not available.'
+    LikedTweet = 'Tweets not available'
     try:
         username = User.objects.get(username=request.user.username)
         SelfTweet = tweettable.objects.filter(user=request.user)
-        LikedTweet = tweettable.objects.filter(is_liked=True, user=request.user)
+        likedtweetid = favtable.objects.filter(user=request.user).values_list('tweet', flat=True)
+        LikedTweet= tweettable.objects.filter(pk__in=likedtweetid)
 
     except User.DoesNotExist:
         return render(request,'webapp/index.html',{'SelfTweet':SelfTweet,'LikedTweet':LikedTweet,'AllTweets':AllTweets})
@@ -63,3 +64,10 @@ def twitter(request):
         form = twitter_form()
     return render(request, 'webapp/twitter.html', {'form': form})
 
+
+def favorite(request,tweet_id):
+    msg = None
+    new_like ,created = favtable.objects.get_or_create(user=request.user, tweet_id=tweet_id)
+    if created is False:
+        msg = 'You already liked this Tweet'
+    return render(request, 'webapp/index.html',{'msg':msg})

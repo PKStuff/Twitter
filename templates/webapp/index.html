@@ -3,28 +3,41 @@
 {% block content %}
 <div class="row">
   <div class="leftcolumn">
+    {% if msg is None%}
     {% if username is not None %}
-    <div class="card">
+    <div class="panel panel-primary">
       <h2>Your Own Tweets</h2>
       {% for tweet in SelfTweet %}
-      <h4 style="color:blue;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
-      <p>{{tweet.tweet}}</p>
+      <div class="panel-heading">
+          <h4 style="color:black;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
+      </div>
+      <div class="panel-body">{{tweet.tweet}}</div>
+      <div class="panel-footer"><p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span>Like</a></p></div>
       {% endfor %}
     </div>
-    <div class="card">
+    <div class="panel panel-primary">
       <h2>Liked Tweets</h2>
       {% for tweet in LikedTweet %}
-      <h4 style="color:blue;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
-      <p>{{tweet.tweet}}</p>
+      <div class="panel-heading">
+          <h4 style="color:black;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
+      </div>
+      <div class="panel-body">{{tweet.tweet}}</div>
+      <div class="panel-footer"><p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span>Like</a></p></div>
       {% endfor %}
     </div>
     {% endif %}
-    <div class="card">
+    <div class="panel panel-primary">
       <h2>All Tweets</h2>
       {% for tweet in AllTweets %}
-      <h4 style="color:blue;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
-      <p>{{tweet.tweet}}</p>
+      <div class="panel-heading">
+          <h4 style="color:black;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
+      </div>
+      <div class="panel-body">{{tweet.tweet}}</div>
+      <div class="panel-footer"><p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span>Like</a></p></div>
       {% endfor %}
+      {% else %}
+      <h2>{{msg}}</h2>
+      {% endif %}
     </div>
   </div>
 </div>

@@ -10,3 +10,9 @@ class tweettable(models.Model):
     modified_date = models.DateField(auto_now=True)
 
 
+class favtable(models.Model):
+
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    tweet = models.ForeignKey(tweettable, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+

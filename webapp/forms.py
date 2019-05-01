@@ -1,5 +1,5 @@
 from django.contrib.auth.admin import User
-from .models import tweettable
+from .models import tweettable, favtable
 from django import forms
 
 
