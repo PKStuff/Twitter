@@ -18,3 +18,10 @@ class twitter_form(forms.ModelForm):
 
         model = tweettable
         fields = ['tweet']
+
+class edit_form(forms.ModelForm):
+
+    class Meta:
+
+        model = tweettable
+        fields = ['tweet']

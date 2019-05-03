@@ -2,9 +2,10 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
-  <div class="leftcolumn">
+  <div class="left-column">
     {% if msg is None%}
     {% if username is not None %}
+    <div class="col-sm-10" style="background-color:lavenderblush;">
     <div class="panel panel-primary">
       <h2>Your Own Tweets</h2>
       {% for tweet in SelfTweet %}
@@ -12,33 +13,41 @@
           <h4 style="color:black;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
       </div>
       <div class="panel-body">{{tweet.tweet}}</div>
-      <div class="panel-footer"><p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span>Like</a></p></div>
+      <div class="panel-footer">
+        <p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span></a></p>
+        <p><a href="{% url 'remove' tweet.id %}"><span class="glyphicon glyphicon-remove"></span></a></p>
+        <p><a href="{% url 'update_tweet' tweet.id %}"><span class="glyphicon glyphicon-edit"></span></a></p>
+      </div>
       {% endfor %}
-    </div>
+    </div></div>
+    <div class="col-sm-10" style="background-color:lavenderblush;">
     <div class="panel panel-primary">
       <h2>Liked Tweets</h2>
       {% for tweet in LikedTweet %}
       <div class="panel-heading">
-          <h4 style="color:black;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
+          <h4 style="color:black;">Tweeted By {{tweet.user}}, {{tweet.created_date}}, {{count_tweet}} Likes</h4>
       </div>
       <div class="panel-body">{{tweet.tweet}}</div>
-      <div class="panel-footer"><p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span>Like</a></p></div>
+      <div class="panel-footer"><p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span></a></p>
+      <p><a href="{% url 'dislike' tweet.id %}"><span class="glyphicon glyphicon-thumbs-down"></span></a></p>
+      </div>
       {% endfor %}
-    </div>
+    </div></div>
     {% endif %}
+    <div class="col-sm-10" style="background-color:lavenderblush;">
     <div class="panel panel-primary">
       <h2>All Tweets</h2>
       {% for tweet in AllTweets %}
       <div class="panel-heading">
-          <h4 style="color:black;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
+          <h4 style="color:black;">Tweeted By {{tweet.user}}, {{tweet.created_date}}, {{count_tweet}} Likes</h4>
       </div>
       <div class="panel-body">{{tweet.tweet}}</div>
-      <div class="panel-footer"><p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span>Like</a></p></div>
+      <div class="panel-footer"><p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span></a></p></div>
       {% endfor %}
       {% else %}
       <h2>{{msg}}</h2>
       {% endif %}
-    </div>
+    </div></div>
   </div>
 </div>
 
