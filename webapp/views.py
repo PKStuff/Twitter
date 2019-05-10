@@ -90,8 +90,8 @@ def favorite(request,tweet_id):
     new_like ,created = favtable.objects.get_or_create(user=request.user, tweet_id=tweet_id)
     if created is False:
         msg = 'You already liked this Tweet'
-        return render(request, 'webapp/index.html', {'msg': msg})
-    return redirect('index')
+        #return render(request, 'webapp/index.html', {'msg': msg})
+    return render(request, 'webapp/index.html', {'msg': msg})
 
 
 def remove(request, tweet_id):

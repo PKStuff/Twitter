@@ -120,6 +120,7 @@ textarea {
 }
 button {
   overflow: visible;
+  
 }
 button,
 select {
@@ -2750,6 +2751,7 @@ select[multiple].form-group-lg .form-control {
 }
 .btn {
   display: inline-block;
+  background-color: DodgerBlue;
   padding: 6px 12px;
   margin-bottom: 0;
   font-size: 14px;
@@ -2784,6 +2786,7 @@ select[multiple].form-group-lg .form-control {
 .btn.focus {
   color: #333;
   text-decoration: none;
+  background-color: RoyalBlue;
 }
 .btn:active,
 .btn.active {

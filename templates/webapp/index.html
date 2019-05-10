@@ -1,54 +1,89 @@
 
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-<div class="row">
-  <div class="left-column">
-    {% if msg is None%}
-    {% if username is not None %}
-    <div class="col-sm-10" style="background-color:lavenderblush;">
-    <div class="panel panel-primary">
-      <h2>Your Own Tweets</h2>
-      {% for tweet in SelfTweet %}
-      <div class="panel-heading">
-          <h4 style="color:black;">Tweeted By {{tweet.user}}, {{tweet.created_date}}</h4>
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="#menu1">Your Own Tweets</a></li>
+    <li><a data-toggle="tab" href="#menu2">Liked Tweets</a></li>
+    <li><a data-toggle="tab" href="#menu3">All Tweets</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="menu1" class="tab-pane fade">
+      <h3>Your Own Tweets</h3>
+      {% if msg is None%}
+      {% if username is not None %}
+      <div class="col-sm-10" style="background-color:white;">
+        <div class="container mt-3">
+          {% for tweet in SelfTweet %}
+            <div class="media border p-3">
+              <img src="{% static 'webapp/img_avatar.png' %}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                <div class="media-body">
+                  <h4>{{tweet.user}} <small><i>Posted on {{tweet.created_date}}</i></small></h4>
+                  <p>{{tweet.tweet}}.</p>
+                  <p>
+                    <a href="{% url 'favorite' tweet.id %}"><button class="btn"><i class="glyphicon glyphicon-thumbs-up"></i> Like</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{% url 'remove' tweet.id %}"><button class="btn"><i class="fa fa-close"></i> Close</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{% url 'update_tweet' tweet.id %}"><button class="btn"><i class="glyphicon glyphicon-edit"></i> Edit</button></span></a>
+                  </p>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
       </div>
-      <div class="panel-body">{{tweet.tweet}}</div>
-      <div class="panel-footer">
-        <p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span></a></p>
-        <p><a href="{% url 'remove' tweet.id %}"><span class="glyphicon glyphicon-remove"></span></a></p>
-        <p><a href="{% url 'update_tweet' tweet.id %}"><span class="glyphicon glyphicon-edit"></span></a></p>
-      </div>
-      {% endfor %}
-    </div></div>
-    <div class="col-sm-10" style="background-color:lavenderblush;">
-    <div class="panel panel-primary">
-      <h2>Liked Tweets</h2>
-      {% for tweet in LikedTweet %}
-      <div class="panel-heading">
-          <h4 style="color:black;">Tweeted By {{tweet.user}}, {{tweet.created_date}}, {{count_tweet}} Likes</h4>
-      </div>
-      <div class="panel-body">{{tweet.tweet}}</div>
-      <div class="panel-footer"><p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span></a></p>
-      <p><a href="{% url 'dislike' tweet.id %}"><span class="glyphicon glyphicon-thumbs-down"></span></a></p>
-      </div>
-      {% endfor %}
-    </div></div>
-    {% endif %}
-    <div class="col-sm-10" style="background-color:lavenderblush;">
-    <div class="panel panel-primary">
-      <h2>All Tweets</h2>
-      {% for tweet in AllTweets %}
-      <div class="panel-heading">
-          <h4 style="color:black;">Tweeted By {{tweet.user}}, {{tweet.created_date}}, {{count_tweet}} Likes</h4>
-      </div>
-      <div class="panel-body">{{tweet.tweet}}</div>
-      <div class="panel-footer"><p><a href="{% url 'favorite' tweet.id %}"><span class="glyphicon glyphicon-thumbs-up"></span></a></p></div>
-      {% endfor %}
+      {% endif %}
       {% else %}
       <h2>{{msg}}</h2>
       {% endif %}
-    </div></div>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <h3>Liked Tweets</h3>
+      {% if msg is None%}
+      {% if username is not None %}
+        <div class="col-sm-10" style="background-color:white;">
+          <div class="container mt-3">
+            {% for tweet in LikedTweet %}
+              <div class="media border p-3">
+              <img src="{% static 'webapp/img_avatar.png' %}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                <div class="media-body">
+                  <h4>{{tweet.user}} <small><i>Posted on {{tweet.created_date}}</i></small></h4>
+                  <p>{{tweet.tweet}}.</p>
+                  <p><a href="{% url 'favorite' tweet.id %}"><button class="btn"><i class="glyphicon glyphicon-thumbs-up"></i> Like</button></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="{% url 'dislike' tweet.id %}"><button class="btn"><i class="glyphicon glyphicon-thumbs-down"></i> Dislike</button></a>
+                  </p>
+                </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+      {% else %}
+      <h2>{{msg}}</h2>
+      {% endif %}
+    </div>
+    <div id="menu3" class="tab-pane fade in active">
+      <h3>All Tweets</h3>
+      {% if msg is None%}
+      <div class="col-sm-10" style="background-color:white;">
+          <div class="container mt-12">
+            {% for tweet in AllTweets %}
+            <div class="media border p-10">
+              <img src="{% static 'webapp/img_avatar.png' %}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                <div class="media-body">
+                  <h4>{{tweet.user}} <small><i>Posted on {{tweet.created_date}}</i></small></h4>
+                  <p>{{tweet.tweet}}.</p>
+                  <p><a href="{% url 'favorite' tweet.id %}"><button class="btn"><i class="glyphicon glyphicon-thumbs-up"></i> Like</button></a></p>
+                </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% else %}
+      <h2>{{msg}}</h2>
+      <a href="{% url 'index' %}"><button class="btn"><i class="fa fa-arrow-left"></i> Back to Home</button></a>&nbsp;
+      {% endif %}
+    </div>
   </div>
 </div>
-
 {% endblock %}
